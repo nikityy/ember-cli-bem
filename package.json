@@ -11,7 +11,10 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nikityy/ember-cli-bem.git"
+  },
   "scripts": {
     "build": "ember build",
     "start": "ember server",
