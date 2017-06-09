@@ -1,7 +1,7 @@
 /* eslint-env node */
 'use strict';
 
-const HtmlbarsPlugin = require('./lib/htmlbars-plugin');
+var HtmlbarsPlugin = require('./lib/htmlbars-plugin');
 
 module.exports = {
 
