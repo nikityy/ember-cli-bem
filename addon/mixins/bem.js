@@ -12,6 +12,21 @@ export function elem(blockName, elemName) {
   return `${blockName}__${elemName}`;
 }
 
+export function mod(blockName, modDefinition) {
+  const { modName, negativeModName, modValue } = modDefinition;
+  const hasNegativeModName = typeof negativeModName !== 'undefined';
+
+  if (typeof modValue === 'boolean') {
+    if (hasNegativeModName && !modValue) {
+      return `${blockName}_${negativeModName}`;
+    } else if (modValue) {
+      return `${blockName}_${modName}`;
+    }
+  } else if (modValue) {
+    return `${blockName}_${modName}_${modValue}`;
+  }
+}
+
 export default Mixin.create({
 
   classNameBindings: [
@@ -71,23 +86,17 @@ export default Mixin.create({
     const blockClassName = get(this, 'blockClassName');
     const mods = get(this, 'mods');
 
-    const modsClassNames = mods.map((mod) => {
-      const modName = this._getModName(mod);
-      const negativeModName = this._getNegativeModName(mod);
-      const modValueProperty = this._getModValueKey(mod);
-      const value = get(this, modValueProperty);
+    const modsClassNames = mods.map((modDefinition) => {
+      const modName = this._getModName(modDefinition);
+      const negativeModName = this._getNegativeModName(modDefinition);
+      const modValueProperty = this._getModValueKey(modDefinition);
+      const modValue = get(this, modValueProperty);
 
-      const hasNegativeModName = typeof negativeModName !== 'undefined';
-
-      if (hasNegativeModName || typeof value === 'boolean') {
-        if (value) {
-          return `${blockClassName}_${modName}`;
-        } else if (hasNegativeModName) {
-          return `${blockClassName}_${negativeModName}`;
-        }
-      } else if (value) {
-        return `${blockClassName}_${modName}_${value}`;
-      }
+      return mod(blockClassName, {
+        modName,
+        negativeModName,
+        modValue
+      });
     });
 
     return modsClassNames.join(' ');
