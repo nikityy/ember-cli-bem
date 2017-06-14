@@ -5,17 +5,19 @@ const {
   HTMLBars: { makeBoundHelper },
 } = Ember;
 
+const BLOCK_KEY = 'blockName';
+
 export default makeBoundHelper(function(params, hash) {
-  const { blockName } = hash
+  const blockName = hash[BLOCK_KEY];
   const [ elemName ] = params;
 
   if (!blockName) {
-    throw Error(`blockName is required for 'elem' helper`);
+    throw Error(`${BLOCK_KEY} is required for 'elem' helper`);
   }
 
   const elemClassName = elem(blockName, elemName);
 
-  const modNames = Object.keys(hash).filter((key) => key !== 'blockName');
+  const modNames = Object.keys(hash).filter((key) => key !== BLOCK_KEY);
   const modClassNames = modNames.map((modName) => {
     const modValue = hash[modName];
     return mod(elemClassName, { modName, modValue });
