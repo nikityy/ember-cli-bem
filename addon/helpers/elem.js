@@ -2,12 +2,12 @@ import Ember from 'ember';
 import { elem, mod } from 'ember-cli-bem/mixins/bem';
 
 const {
-  HTMLBars: { makeBoundHelper },
+  Helper: { helper }
 } = Ember;
 
 const BLOCK_KEY = 'blockName';
 
-export default makeBoundHelper(function(params, hash) {
+export default helper(function(params, hash) {
   const blockName = hash[BLOCK_KEY];
   const [ elemName ] = params;
 
