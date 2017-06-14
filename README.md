@@ -62,6 +62,18 @@ When you applied BEM mixin, you also can use `elem` helper in your templates.
 Applying to the above example with the button, these elements will have
 `button__icon` and `button__caption` classes accordingly.
 
+Also `elem` helper supports modificators:
+```hbs
+  <div class="{{elem 'container' collapsed=true type='float'}}">
+    {{yield}}
+  </div>
+```
+
+So `container` element will have following class names:
+* `button__container`
+* `button__container_collapsed`
+* `button__container_type_float`
+
 ## Installation
 
 ```sh

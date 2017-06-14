@@ -22,3 +22,17 @@ test('it should use specified blockName', withChai(function(expect, assert) {
 
   expect(this.$().text().trim()).to.be.equal('abc__123');
 }));
+
+test('it should generate mods class names', withChai(function(expect, assert) {
+  assert.expect(1);
+
+  this.set('blockName', 'foo');
+  this.render(hbs`{{elem 'bar' hidden=true type='primary' disabled=false}}`);
+
+  const classNames = this.$().text().trim().split(' ').sort();
+  expect(classNames).to.be.deep.equal([
+    'foo__bar',
+    'foo__bar_hidden',
+    'foo__bar_type_primary',
+  ]);
+}));
