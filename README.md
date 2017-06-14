@@ -56,7 +56,7 @@ import BEM from 'ember-cli-bem/mixins/bem';
 
 export default Ember.Component.extend({
   blockName: 'button',
-  mods: ['typeMod'],
+  mods: ['type'],
   type: 'highlighted',
 });
 ```
