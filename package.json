@@ -1,8 +1,9 @@
 {
   "name": "ember-cli-bem",
-  "version": "0.0.2",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.1.0",
+  "description": "BEM naming for your Ember project",
   "keywords": [
+    "bem",
     "ember-addon"
   ],
   "license": "MIT",
