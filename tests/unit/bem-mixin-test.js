@@ -8,7 +8,6 @@ import BEM from 'ember-cli-bem/mixins/bem';
 
 const {
   get,
-  Object,
   run,
   set,
 } = Ember;
@@ -18,7 +17,7 @@ module('Unit | Mixin | BEM');
 test('should correctly calculate blockClassName with blockName', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const block = Object.extend(BEM, {
+  const block = Ember.Object.extend(BEM, {
     blockName: 'checkbox',
   }).create();
 
@@ -29,7 +28,7 @@ test('should correctly calculate blockClassName with blockName', withChai(functi
 test('should correctly calculate blockClassName with blockName and elemName', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const block = Object.extend(BEM, {
+  const block = Ember.Object.extend(BEM, {
     blockName: 'checkbox',
     elemName: 'label',
   }).create();
@@ -41,7 +40,7 @@ test('should correctly calculate blockClassName with blockName and elemName', wi
 test('should calculate mod with string value', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const redButton = Object.extend(BEM, {
+  const redButton = Ember.Object.extend(BEM, {
     blockName: 'button',
     mods: [
       'color',
@@ -56,7 +55,7 @@ test('should calculate mod with string value', withChai(function(expect, assert)
 test('should calculate mod with boolean value', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const disabledButton = Object.extend(BEM, {
+  const disabledButton = Ember.Object.extend(BEM, {
     blockName: 'button',
     mods: [
       'disabled',
@@ -71,7 +70,7 @@ test('should calculate mod with boolean value', withChai(function(expect, assert
 test('should calculate mod with custom value key', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const selectModeButton = Object.extend(BEM, {
+  const selectModeButton = Ember.Object.extend(BEM, {
     blockName: 'button',
     mods: [
       'selectMode:select-mode',
@@ -86,7 +85,7 @@ test('should calculate mod with custom value key', withChai(function(expect, ass
 test('should hide mod with false boolean value', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const hiddenButton = Object.extend(BEM, {
+  const hiddenButton = Ember.Object.extend(BEM, {
     blockName: 'button',
     mods: [
       'hidden',
@@ -101,7 +100,7 @@ test('should hide mod with false boolean value', withChai(function(expect, asser
 test('should use negative mod name if it exists and value if false', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const negativeStateButton = Object.extend(BEM, {
+  const negativeStateButton = Ember.Object.extend(BEM, {
     blockName: 'button',
     mods: [
       'pressed:pressed:non-pressed',
@@ -116,7 +115,7 @@ test('should use negative mod name if it exists and value if false', withChai(fu
 test('should calculate multiple mods', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const complexButton = Object.extend(BEM, {
+  const complexButton = Ember.Object.extend(BEM, {
     blockName: 'button',
     mods: [
       'disabled',
@@ -133,7 +132,7 @@ test('should calculate multiple mods', withChai(function(expect, assert) {
 test('should recalculate modsClassNames when dependent property has changed', withChai(function(expect, assert) {
   assert.expect(2);
 
-  const button = Object.extend(BEM, {
+  const button = Ember.Object.extend(BEM, {
     blockName: 'button',
     mods: [
       'color',

@@ -1,31 +1,15 @@
 import Ember from 'ember';
+import NamingStrategyFactory from 'ember-cli-bem/naming-strategies/factory';
 
 const {
   computed,
   defineProperty,
   get,
+  getOwner,
+  Logger: { error },
   Mixin,
   set,
 } = Ember;
-
-export function elem(blockName, elemName) {
-  return `${blockName}__${elemName}`;
-}
-
-export function mod(blockName, modDefinition) {
-  const { modName, negativeModName, modValue } = modDefinition;
-  const hasNegativeModName = typeof negativeModName !== 'undefined';
-
-  if (typeof modValue === 'boolean') {
-    if (hasNegativeModName && !modValue) {
-      return `${blockName}_${negativeModName}`;
-    } else if (modValue) {
-      return `${blockName}_${modName}`;
-    }
-  } else if (modValue) {
-    return `${blockName}_${modName}_${modValue}`;
-  }
-}
 
 export default Mixin.create({
 
@@ -47,52 +31,70 @@ export default Mixin.create({
     }
 
     const mods = get(this, 'mods');
-    const modsDependencies = mods.map((mod) => this._getModValueKey(mod));
+    const modsDependencies = mods.map((mod) => this.__getModValueKey__(mod));
 
     defineProperty(
       this,
       'modsClassNames',
-      computed('blockClassName', ...modsDependencies, this._getModsClassNames)
+      computed('blockClassName', ...modsDependencies, this.__getModsClassNames__)
     );
   },
 
   blockClassName: computed('blockName', 'elemName', function() {
     const blockName = get(this, 'blockName');
     const elemName = get(this, 'elemName');
+    const namingStrategy = get(this, '__namingStrategy__');
 
     if (blockName && elemName) {
-      return elem(blockName, elemName);
+      return namingStrategy.getElemClassName(blockName, elemName);
     } else if (blockName) {
-      return `${blockName}`;
+      return namingStrategy.getBlockClassName(blockName);
     }
   }),
 
-  _getModName(modDefinition) {
+  __namingStrategy__: computed(function() {
+    const factory = new NamingStrategyFactory();
+
+    try {
+      const environment = getOwner(this).lookup('config:environment');
+      const config = environment['ember-cli-bem'];
+      return factory.getStrategy(config);
+    } catch (e) {
+      error('Cannot access config', e);
+      const defaultConfig = {
+        namingStrategy: 'classic',
+      };
+      return factory.getStrategy(defaultConfig);
+    }
+  }),
+
+  __getModName__(modDefinition) {
     const [modName, modValueProperty] = modDefinition.split(':');
     return modValueProperty || modName;
   },
 
-  _getModValueKey(modDefinition) {
+  __getModValueKey__(modDefinition) {
     const [modName] = modDefinition.split(':');
     return modName;
   },
 
-  _getNegativeModName(modDefinition) {
+  __getNegativeModName__(modDefinition) {
     const [,, negativeModValueProperty] = modDefinition.split(':');
     return negativeModValueProperty;
   },
 
-  _getModsClassNames() {
+  __getModsClassNames__() {
     const blockClassName = get(this, 'blockClassName');
+    const namingStrategy = get(this, '__namingStrategy__');
     const mods = get(this, 'mods');
 
     const modsClassNames = mods.map((modDefinition) => {
-      const modName = this._getModName(modDefinition);
-      const negativeModName = this._getNegativeModName(modDefinition);
-      const modValueProperty = this._getModValueKey(modDefinition);
+      const modName = this.__getModName__(modDefinition);
+      const negativeModName = this.__getNegativeModName__(modDefinition);
+      const modValueProperty = this.__getModValueKey__(modDefinition);
       const modValue = get(this, modValueProperty);
 
-      return mod(blockClassName, {
+      return namingStrategy.getModClassName(blockClassName, {
         modName,
         negativeModName,
         modValue
