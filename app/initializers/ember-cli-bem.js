@@ -10,7 +10,7 @@ export default {
   name: 'ember-cli-bem',
 
   initialize(owner) {
-    const config = owner.lookup('config:environment');
+    const config = owner.registry.resolve('config:environment');
     const addonConfig = config['ember-cli-bem'];
     const factory = new NamingStrategyFactory();
     const strategy = factory.getStrategy(addonConfig);
