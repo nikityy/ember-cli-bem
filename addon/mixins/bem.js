@@ -1,12 +1,9 @@
 import Ember from 'ember';
-import NamingStrategyFactory from 'ember-cli-bem/naming-strategies/factory';
 
 const {
   computed,
   defineProperty,
   get,
-  getOwner,
-  Logger: { error },
   Mixin,
   set,
 } = Ember;
@@ -49,22 +46,6 @@ export default Mixin.create({
       return namingStrategy.getElemClassName(blockName, elemName);
     } else if (blockName) {
       return namingStrategy.getBlockClassName(blockName);
-    }
-  }),
-
-  __namingStrategy__: computed(function() {
-    const factory = new NamingStrategyFactory();
-
-    try {
-      const environment = getOwner(this).lookup('config:environment');
-      const config = environment['ember-cli-bem'];
-      return factory.getStrategy(config);
-    } catch (e) {
-      error('Cannot access config', e);
-      const defaultConfig = {
-        namingStrategy: 'classic',
-      };
-      return factory.getStrategy(defaultConfig);
     }
   }),
 
