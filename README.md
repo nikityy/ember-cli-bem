@@ -1,4 +1,4 @@
-# ember-cli-bem [![Build Status](https://travis-ci.org/nikityy/ember-cli-bem.svg?branch=master)](https://travis-ci.org/nikityy/ember-cli-bem)
+# ember-cli-bem [![Build Status](https://travis-ci.org/nikityy/ember-cli-bem.svg?branch=master)](https://travis-ci.org/nikityy/ember-cli-bem) [![Ember Observer Score](https://emberobserver.com/badges/ember-cli-bem.svg)](https://emberobserver.com/addons/ember-cli-bem)
 
 Make your project BEM-flavoured. It incapsulates all [BEM](https://en.bem.info/methodology/) naming logic, so you don't have to care about it in your components. Simply define [blocks](https://en.bem.info/methodology/key-concepts/#block), [elements](https://en.bem.info/methodology/key-concepts/#element) and [modifiers](https://en.bem.info/methodology/key-concepts/#modifier) in your components and templates.
 
