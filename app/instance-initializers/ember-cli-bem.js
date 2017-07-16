@@ -10,7 +10,7 @@ export function initialize(applicationInstance) {
 
   const strategyName = addonConfig.namingStrategy;
   const StrategyFactory = applicationInstance.registry.resolve(`naming-strategies:${strategyName}`);
-  const strategy = new StrategyFactory(addonConfig);
+  const strategy = StrategyFactory.create(addonConfig);
 
   if (!strategy) {
     throw Error(`Cannot find BEM naming strategy with name ${strategyName}`);

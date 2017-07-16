@@ -1,9 +1,9 @@
-export default class BaseNamingStrategy {
+import Ember from 'ember';
 
-  constructor({ elemDelimiter, modDelimiter, useKeyValuedMods } = {}) {
-    this.elemDelimiter = elemDelimiter;
-    this.modDelimiter = modDelimiter;
-    this.useKeyValuedMods = useKeyValuedMods;
-  }
+export default Ember.Object.extend({
 
-}
+  elemDelimiter: null,
+  modDelimiter: null,
+  useKeyValuedMods: null,
+
+});

@@ -1,33 +1,20 @@
+import Ember from 'ember';
 import BaseNamingStrategy from 'ember-cli-bem/naming-strategies/base';
+
+const {
+  get,
+} = Ember;
 
 /**
  *  Classic BEM naming implemntation.
  *  Supports modifiers both string (block__elem_modName_modValue)
  *  and boolean (block__elem_modName) modifiers.
  */
-export default class ClassicNamingStrategy extends BaseNamingStrategy {
+export default BaseNamingStrategy.extend({
 
-  constructor(options) {
-    super(options);
-
-    const {
-      elemDelimiter,
-      modDelimiter,
-      useKeyValuedMods,
-    } = this;
-
-    if (typeof useKeyValuedMods === 'undefined') {
-      this.useKeyValuedMods = true;
-    }
-
-    if (typeof elemDelimiter === 'undefined') {
-      this.elemDelimiter = '__';
-    }
-
-    if (typeof modDelimiter === 'undefined') {
-      this.modDelimiter = '_';
-    }
-  }
+  elemDelimiter: '__',
+  modDelimiter: '_',
+  useKeyValuedMods: true,
 
   /**
    * Generates block class name for provided string value
@@ -36,7 +23,7 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
    */
   getBlockClassName(blockName) {
     return blockName;
-  }
+  },
 
   /**
    * Generates elem class name for provided block name and elem name
@@ -45,9 +32,9 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
    * @return {string}
    */
   getElemClassName(blockName, elemName) {
-    const { elemDelimiter } = this;
+    const elemDelimiter = get(this, 'elemDelimiter');
     return `${blockName}${elemDelimiter}${elemName}`;
-  }
+  },
 
   /**
    * Generates modifier class name for provided block or elem name and mod definition
@@ -56,14 +43,14 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
    * @return {string}
    */
   getModClassName(parentName, modDefinition) {
-    const { useKeyValuedMods } = this;
+    const useKeyValuedMods = get(this, 'useKeyValuedMods');
     const { modValue } = modDefinition;
     if (!useKeyValuedMods || typeof modValue === 'boolean') {
       return this._getBooleanModClassName(parentName, modDefinition);
     } else {
       return this._getKeyValueModClassName(parentName, modDefinition);
     }
-  }
+  },
 
   /**
    * Generates modifier class name for boolean value
@@ -73,7 +60,7 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
    * @return {string}
    */
   _getBooleanModClassName(parentName, modDefinition) {
-    const { modDelimiter } = this;
+    const modDelimiter = get(this, 'modDelimiter');
     const { modName, negativeModName, modValue } = modDefinition;
     const hasNegativeModName = typeof negativeModName !== 'undefined';
 
@@ -84,7 +71,7 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
     } else {
       return '';
     }
-  }
+  },
 
   /**
    * Generates modifier class name for string value
@@ -94,7 +81,7 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
    * @return {string}
    */
   _getKeyValueModClassName(parentName, modDefinition) {
-    const { modDelimiter } = this;
+    const modDelimiter = get(this, 'modDelimiter');
     const { modName, modValue } = modDefinition;
 
     if (modValue) {
@@ -102,6 +89,6 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
     } else {
       return '';
     }
-  }
+  },
 
-}
+});
