@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-import classicNamingStrategyInitializer from 'dummy/initializers/classic-naming-strategy';
-import emberCliBemInitializer from 'dummy/instance-initializers/ember-cli-bem';
+import emberCliBemInitializer from 'dummy/initializers/ember-cli-bem';
 import { moduleForComponent, test } from 'ember-qunit';
 import { withChai } from 'ember-cli-chai/qunit';
 
@@ -16,7 +15,6 @@ moduleForComponent(
   {
     integration: true,
     beforeEach() {
-      classicNamingStrategyInitializer.initialize(this);
       emberCliBemInitializer.initialize(this);
     },
   }

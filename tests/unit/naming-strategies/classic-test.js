@@ -10,7 +10,7 @@ module('Unit | Naming Strategies | Classic');
 test('should generate block class name', withChai(function(expect, assert) {
   assert.expect(5);
 
-  const strategy = new ClassicNamingStrategy();
+  const strategy = ClassicNamingStrategy.create();
 
   const simpleName = 'button';
   const simpleClassName = strategy.getBlockClassName(simpleName);
@@ -36,7 +36,7 @@ test('should generate block class name', withChai(function(expect, assert) {
 test('should generate elem class name', withChai(function(expect, assert) {
   assert.expect(5);
 
-  const strategy = new ClassicNamingStrategy();
+  const strategy = ClassicNamingStrategy.create();
 
   const simpleName = 'button';
   const simpleElemName = 'container';
@@ -67,7 +67,7 @@ test('should generate elem class name', withChai(function(expect, assert) {
 test('should support custom elem separator', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const strategy = new ClassicNamingStrategy({
+  const strategy = ClassicNamingStrategy.create({
     elemDelimiter: '-',
   });
 
@@ -80,7 +80,7 @@ test('should support custom elem separator', withChai(function(expect, assert) {
 test('should generate modifier with string value', withChai(function(expect, assert) {
   assert.expect(2);
 
-  const strategy = new ClassicNamingStrategy();
+  const strategy = ClassicNamingStrategy.create();
 
   const parentName = 'block__elem';
   const modDefinition = {
@@ -101,7 +101,7 @@ test('should generate modifier with string value', withChai(function(expect, ass
 test('should calculate mod with boolean value', withChai(function(expect, assert) {
   assert.expect(2);
 
-  const strategy = new ClassicNamingStrategy();
+  const strategy = ClassicNamingStrategy.create();
 
   const parentName = 'block__elem';
   const modDefinition = {
@@ -122,7 +122,7 @@ test('should calculate mod with boolean value', withChai(function(expect, assert
 test('should generate negative mod name if it exists and value is false', withChai(function(expect, assert) {
   assert.expect(2);
 
-  const strategy = new ClassicNamingStrategy();
+  const strategy = ClassicNamingStrategy.create();
 
   const parentName = 'block__elem';
   const modDefinition = {
@@ -145,7 +145,7 @@ test('should generate negative mod name if it exists and value is false', withCh
 test('should generate negative mod name if it exists and value is false', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const strategy = new ClassicNamingStrategy({
+  const strategy = ClassicNamingStrategy.create({
     modDelimiter: '--',
   });
 
@@ -161,7 +161,7 @@ test('should generate negative mod name if it exists and value is false', withCh
 test('should use only boolean mods in useKeyValuedMods if false', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const strategy = new ClassicNamingStrategy({
+  const strategy = ClassicNamingStrategy.create({
     useKeyValuedMods: false,
   });
 

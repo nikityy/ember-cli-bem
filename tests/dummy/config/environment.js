@@ -6,10 +6,10 @@ module.exports = function(environment) {
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
-    ['ember-cli-bem']: {
-      namingStrategy: 'classic',
-      elemSeparator: '__',
-      modSeparator: '_',
+    'ember-cli-bem': {
+      elemDelimiter: '__',
+      modDelimiter: '_',
+      useKeyValuedMods: true,
     },
     EmberENV: {
       FEATURES: {
@@ -48,7 +48,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    // Do on production
   }
 
   return ENV;

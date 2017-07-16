@@ -143,7 +143,6 @@ key-value modifiers, or define your own naming strategy.
 
 ```js
 ENV['ember-cli-bem'] = {
-  namingStrategy: 'classic',
   elemDelimiter: '__',
   modDelimiter: '_',
   useKeyValuedMods: true,
@@ -176,12 +175,6 @@ table to understand what class will be generated with this option enabled or dis
 | `'force'`      | `'block_disabled_force'` | `'block_disabled'`         |
 
 Note the case with `'force'` modifier value.
-
-### namingStrategy
-Default value: `classic`
-
-Defines which naming strategy should be used. Application initializer will lookup for
-'naming-strategies:${your_naming_strategy}' record in registry. Properties from the addon config will be set in this strategy object.
 
 ## Installation
 
