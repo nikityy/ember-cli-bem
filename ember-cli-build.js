@@ -5,8 +5,9 @@ module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
     'ember-cli-bem': {
       namingStrategy: 'classic',
-      elemSeparator: null,
-      modSeparator: null,
+      elemSeparator: '__',
+      modSeparator: '_',
+      useKeyValuedMods: true,
     }
   });
 

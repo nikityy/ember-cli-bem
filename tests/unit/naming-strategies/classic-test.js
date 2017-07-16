@@ -68,7 +68,7 @@ test('should support custom elem separator', withChai(function(expect, assert) {
   assert.expect(1);
 
   const strategy = new ClassicNamingStrategy({
-    elemSeparator: '-',
+    elemDelimiter: '-',
   });
 
   const simpleName = 'button';
@@ -146,7 +146,7 @@ test('should generate negative mod name if it exists and value is false', withCh
   assert.expect(1);
 
   const strategy = new ClassicNamingStrategy({
-    modSeparator: '--',
+    modDelimiter: '--',
   });
 
   const parentName = 'block__elem';
@@ -156,4 +156,20 @@ test('should generate negative mod name if it exists and value is false', withCh
   };
   const modClassName = strategy.getModClassName(parentName, modDefinition);
   expect(modClassName).to.be.equal('block__elem--type--cool');
+}));
+
+test('should use only boolean mods in useKeyValuedMods if false', withChai(function(expect, assert) {
+  assert.expect(1);
+
+  const strategy = new ClassicNamingStrategy({
+    useKeyValuedMods: false,
+  });
+
+  const parentName = 'block__elem';
+  const modDefinition = {
+    modName: 'disabled',
+    modValue: 'maybe',
+  };
+  const modClassName = strategy.getModClassName(parentName, modDefinition);
+  expect(modClassName).to.be.equal('block__elem_disabled');
 }));
