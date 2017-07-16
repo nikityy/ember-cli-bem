@@ -1,151 +1,251 @@
 import Ember from 'ember';
+import hbs from 'htmlbars-inline-precompile';
+import classicNamingStrategyInitializer from 'dummy/initializers/classic-naming-strategy';
+import emberCliBemInitializer from 'dummy/instance-initializers/ember-cli-bem';
 import { moduleForComponent, test } from 'ember-qunit';
 import { withChai } from 'ember-cli-chai/qunit';
 
 const {
-  get,
   run,
   set,
 } = Ember;
 
-moduleForComponent('dummy-component', 'Integration | Components | dummy-component', {
-  unit: true
-});
+moduleForComponent(
+  'dummy-component',
+  'Integration | Components | dummy-component',
+  {
+    integration: true,
+    beforeEach() {
+      classicNamingStrategyInitializer.initialize(this);
+      emberCliBemInitializer.initialize(this);
+    },
+  }
+);
 
-test('should correctly calculate blockClassName with blockName', withChai(function(expect, assert) {
+const dummyComponentSelector = '.dummy-component';
+
+test('should add block class name', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const block = this.subject({
-    blockName: 'checkbox',
-  });
+  const blockName = 'checkbox';
+  this.set('blockName', blockName);
 
-  const blockClassName = get(block, 'blockClassName');
-  expect(blockClassName).to.be.equal('checkbox');
+  this.render(hbs`
+    {{dummy-component
+      blockName=blockName
+    }}
+  `);
+
+  const hasBlockClassName = this.$(dummyComponentSelector).hasClass(blockName);
+  expect(hasBlockClassName).to.be.ok;
 }));
 
-test('should correctly calculate blockClassName with blockName and elemName', withChai(function(expect, assert) {
+test('should add element class name', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const block = this.subject({
-    blockName: 'checkbox',
-    elemName: 'label',
-  });
+  const blockName = 'checkbox';
+  const elemName = 'input';
+  this.set('blockName', blockName);
+  this.set('elemName', elemName);
 
-  const blockClassName = get(block, 'blockClassName');
-  expect(blockClassName).to.be.equal('checkbox__label');
+  this.render(hbs`
+    {{dummy-component
+      blockName=blockName
+      elemName=elemName
+    }}
+  `);
+
+  const hasElemClassName = this.$(dummyComponentSelector).hasClass(`${blockName}__${elemName}`);
+  expect(hasElemClassName).to.be.ok;
 }));
 
-test('should calculate mod with string value', withChai(function(expect, assert) {
+test('should add key-value mod', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const redButton = this.subject({
-    blockName: 'button',
-    mods: [
-      'color',
-    ],
-    color: 'red',
-  });
+  const blockName = 'checkbox';
+  this.set('blockName', blockName);
 
-  const modsClassNames = get(redButton, 'modsClassNames');
-  expect(modsClassNames).to.be.equal('button_color_red');
+  const mods = [
+    'color',
+  ];
+  this.set('mods', mods);
+
+  const color = 'red';
+  this.set('color', color);
+
+  this.render(hbs`
+    {{dummy-component
+      blockName=blockName
+      mods=mods
+      color=color
+    }}
+  `);
+
+  const hasKeyValueModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_color_${color}`);
+  expect(hasKeyValueModClass).to.be.ok;
 }));
 
-test('should calculate mod with boolean value', withChai(function(expect, assert) {
+test('should add boolean mod', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const disabledButton = this.subject({
-    blockName: 'button',
-    mods: [
-      'disabled',
-    ],
-    disabled: true,
-  });
+  const blockName = 'checkbox';
+  this.set('blockName', blockName);
 
-  const modsClassNames = get(disabledButton, 'modsClassNames');
-  expect(modsClassNames).to.be.equal('button_disabled');
+  const mods = [
+    'disabled',
+  ];
+  this.set('mods', mods);
+
+  this.set('disabled', true);
+
+  this.render(hbs`
+    {{dummy-component
+      blockName=blockName
+      mods=mods
+      disabled=disabled
+    }}
+  `);
+
+  const hasBooleanModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_disabled`);
+  expect(hasBooleanModClass).to.be.ok;
 }));
 
-test('should calculate mod with custom value key', withChai(function(expect, assert) {
+test('should add mod with custom name', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const selectModeButton = this.subject({
-    blockName: 'button',
-    mods: [
-      'selectMode:select-mode',
-    ],
-    selectMode: true,
-  });
+  const blockName = 'checkbox';
+  this.set('blockName', blockName);
 
-  const modsClassNames = get(selectModeButton, 'modsClassNames');
-  expect(modsClassNames).to.be.equal('button_select-mode');
+  const mods = [
+    'selectMode:select-mode',
+  ];
+  this.set('mods', mods);
+
+  this.set('selectMode', true);
+
+  this.render(hbs`
+    {{dummy-component
+      blockName=blockName
+      mods=mods
+      selectMode=selectMode
+    }}
+  `);
+
+  const hasCustomNameModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_select-mode`);
+  expect(hasCustomNameModClass).to.be.ok;
 }));
 
-test('should hide mod with false boolean value', withChai(function(expect, assert) {
+test('should not add mod with false value', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const hiddenButton = this.subject({
-    blockName: 'button',
-    mods: [
-      'hidden',
-    ],
-    hidden: false,
-  });
+  const blockName = 'checkbox';
+  this.set('blockName', blockName);
 
-  const modsClassNames = get(hiddenButton, 'modsClassNames');
-  expect(modsClassNames).to.be.equal('');
+  const mods = [
+    'hidden',
+  ];
+  this.set('mods', mods);
+
+  this.set('hidden', false);
+
+  this.render(hbs`
+    {{dummy-component
+      blockName=blockName
+      mods=mods
+      hidden=hidden
+    }}
+  `);
+
+  const hasFalseModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_disabled`);
+  expect(hasFalseModClass).to.be.not.ok;
 }));
 
-test('should use negative mod name if it exists and value if false', withChai(function(expect, assert) {
+test('should add negative mod name if value is false', withChai(function(expect, assert) {
   assert.expect(1);
 
-  const negativeStateButton = this.subject({
-    blockName: 'button',
-    mods: [
-      'pressed:pressed:non-pressed',
-    ],
-    pressed: false,
-  });
+  const blockName = 'checkbox';
+  this.set('blockName', blockName);
 
-  const modsClassNames = get(negativeStateButton, 'modsClassNames');
-  expect(modsClassNames).to.be.equal('button_non-pressed');
+  const mods = [
+    'pressed:pressed:non-pressed',
+  ];
+  this.set('mods', mods);
+
+  this.set('pressed', false);
+
+  this.render(hbs`
+    {{dummy-component
+      blockName=blockName
+      mods=mods
+      pressed=pressed
+    }}
+  `);
+
+  const hasNegativeModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_non-pressed`);
+  expect(hasNegativeModClass).to.be.ok;
 }));
 
-test('should calculate multiple mods', withChai(function(expect, assert) {
-  assert.expect(1);
+test('should add multiple mods class names', withChai(function(expect, assert) {
+  assert.expect(2);
 
-  const complexButton = this.subject({
-    blockName: 'button',
-    mods: [
-      'disabled',
-      'color',
-    ],
-    disabled: true,
-    color: 'black',
-  });
+  const blockName = 'checkbox';
+  this.set('blockName', blockName);
 
-  const modsClassNames = get(complexButton, 'modsClassNames');
-  expect(modsClassNames).to.be.equal('button_disabled button_color_black');
+  const mods = [
+    'color',
+    'disabled'
+  ];
+  this.set('mods', mods);
+
+  const color = 'black';
+  this.set('color', color);
+  this.set('disabled', true);
+
+  this.render(hbs`
+    {{dummy-component
+      blockName=blockName
+      mods=mods
+      color=color
+      disabled=disabled
+    }}
+  `);
+
+  const component = this.$(dummyComponentSelector);
+
+  const hasColorModClass = component.hasClass(`${blockName}_color_${color}`);
+  expect(hasColorModClass).to.be.ok;
+
+  const hasDisabledModClass = component.hasClass(`${blockName}_disabled`);
+  expect(hasDisabledModClass).to.be.ok;
 }));
 
 test('should recalculate modsClassNames when dependent property has changed', withChai(function(expect, assert) {
-  assert.expect(2);
+  assert.expect(1);
 
-  const button = this.subject({
-    blockName: 'button',
-    mods: [
-      'color',
-    ],
-    color: 'red',
-  });
+  const blockName = 'checkbox';
+  this.set('blockName', blockName);
 
-  expect(get(button, 'modsClassNames')).to.be.equal('button_color_red');
+  const mods = [
+    'color',
+  ];
+  this.set('mods', mods);
 
+  const color = 'red';
+  this.set('color', color);
+
+  this.render(hbs`
+    {{dummy-component
+      blockName=blockName
+      mods=mods
+      color=color
+    }}
+  `);
+
+  const newColor = 'black';
   run(() => {
-    set(button, 'color', 'black');
-  });
+    set(this, 'color', newColor);
+  })
 
-  expect(
-    get(button, 'modsClassNames'),
-    'should recalculate mod when dependent key has changed'
-  ).to.be.equal('button_color_black');
+  const hasNewModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_color_${newColor}`);
+  expect(hasNewModClass).to.be.ok;
 }));

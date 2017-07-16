@@ -10,14 +10,22 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
   constructor(options) {
     super(options);
 
-    const { elemSeparator, modSeparator } = this;
+    const {
+      elemDelimiter,
+      modDelimiter,
+      useKeyValuedMods,
+    } = this;
 
-    if (!elemSeparator) {
-      this.elemSeparator = '__';
+    if (typeof useKeyValuedMods === 'undefined') {
+      this.useKeyValuedMods = true;
     }
 
-    if (!modSeparator) {
-      this.modSeparator = '_';
+    if (typeof elemDelimiter === 'undefined') {
+      this.elemDelimiter = '__';
+    }
+
+    if (typeof modDelimiter === 'undefined') {
+      this.modDelimiter = '_';
     }
   }
 
@@ -37,8 +45,8 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
    * @return {string}
    */
   getElemClassName(blockName, elemName) {
-    const { elemSeparator } = this;
-    return `${blockName}${elemSeparator}${elemName}`;
+    const { elemDelimiter } = this;
+    return `${blockName}${elemDelimiter}${elemName}`;
   }
 
   /**
@@ -48,11 +56,12 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
    * @return {string}
    */
   getModClassName(parentName, modDefinition) {
+    const { useKeyValuedMods } = this;
     const { modValue } = modDefinition;
-    if (typeof modValue === 'boolean') {
+    if (!useKeyValuedMods || typeof modValue === 'boolean') {
       return this._getBooleanModClassName(parentName, modDefinition);
     } else {
-      return this._getStringModClassName(parentName, modDefinition);
+      return this._getKeyValueModClassName(parentName, modDefinition);
     }
   }
 
@@ -64,14 +73,14 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
    * @return {string}
    */
   _getBooleanModClassName(parentName, modDefinition) {
-    const { modSeparator } = this;
+    const { modDelimiter } = this;
     const { modName, negativeModName, modValue } = modDefinition;
     const hasNegativeModName = typeof negativeModName !== 'undefined';
 
     if (hasNegativeModName && !modValue) {
-      return `${parentName}${modSeparator}${negativeModName}`;
+      return `${parentName}${modDelimiter}${negativeModName}`;
     } else if (modValue) {
-      return `${parentName}${modSeparator}${modName}`;
+      return `${parentName}${modDelimiter}${modName}`;
     } else {
       return '';
     }
@@ -84,12 +93,12 @@ export default class ClassicNamingStrategy extends BaseNamingStrategy {
    * @param {object} modDefinition
    * @return {string}
    */
-  _getStringModClassName(parentName, modDefinition) {
-    const { modSeparator } = this;
+  _getKeyValueModClassName(parentName, modDefinition) {
+    const { modDelimiter } = this;
     const { modName, modValue } = modDefinition;
 
     if (modValue) {
-      return `${parentName}${modSeparator}${modName}${modSeparator}${modValue}`;      
+      return `${parentName}${modDelimiter}${modName}${modDelimiter}${modValue}`;
     } else {
       return '';
     }

@@ -1,8 +1,9 @@
 export default class BaseNamingStrategy {
 
-  constructor({ elemSeparator, modSeparator } = {}) {
-    this.elemSeparator = elemSeparator;
-    this.modSeparator = modSeparator
+  constructor({ elemDelimiter, modDelimiter, useKeyValuedMods } = {}) {
+    this.elemDelimiter = elemDelimiter;
+    this.modDelimiter = modDelimiter;
+    this.useKeyValuedMods = useKeyValuedMods;
   }
 
 }
