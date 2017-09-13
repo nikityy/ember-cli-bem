@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassicNamingStrategy from 'ember-cli-bem/naming-strategies/classic';
 
 const {
   computed,
@@ -25,6 +26,11 @@ export default Mixin.create({
 
     if (!get(this, 'mods')) {
       set(this, 'mods', []);
+    }
+
+    // Fallback to classic naming strategy if it hasn't been injected
+    if (!get(this, '__namingStrategy__')) {
+      set(this, '__namingStrategy__', ClassicNamingStrategy.create());
     }
 
     const mods = get(this, 'mods');
