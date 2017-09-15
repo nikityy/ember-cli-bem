@@ -6,6 +6,11 @@ module.exports = function(environment) {
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
+    'ember-cli-bem': {
+      elemDelimiter: '__',
+      modDelimiter: '_',
+      useKeyValuedMods: true,
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -43,7 +48,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    // Do on production
   }
 
   return ENV;

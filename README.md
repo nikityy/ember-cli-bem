@@ -136,6 +136,46 @@ So `container` element will have following class names:
 * `button__container_collapsed`
 * `button__container_type_float`
 
+## Configuring Addon
+
+BEM-naming can be configured. You can change element and mod delimiters, use or not
+key-value modifiers, or define your own naming strategy.
+
+```js
+ENV['ember-cli-bem'] = {
+  elemDelimiter: '__',
+  modDelimiter: '_',
+  useKeyValuedMods: true,
+}
+```
+
+### elemDelimiter
+Default value: `'__'`
+
+Defines how to separate block and element name. For block `checkbox`, element `input`, and elemDelimiter `-`
+it will produce `checkbox-input` class name.
+
+### modDelimiter
+Default value: `'_'`
+
+Just like elemDelimiter, it defines how to separate modifier class name from the rest of name. For block 'checkbox', modifier `disabled`, and modDelimiter `--`
+it will produce `checkbox--disabled` classname
+
+### useKeyValuedMods
+Default value: `true`
+
+If false, addon will not create key-value modifiers. Refer to the following
+table to understand what class will be generated with this option enabled or disabled:
+
+| Modifier Value | With `useKeyValuedMods`  | Without `useKeyValuedMods` |
+|----------------|--------------------------|----------------------------|
+| `true`         | `'block_disabled'`       | `'block_disabled'`         |
+| `false`        | `''`                     | `''`                       |
+| `''`           | `''`                     | `''`                       |
+| `'force'`      | `'block_disabled_force'` | `'block_disabled'`         |
+
+Note the case with `'force'` modifier value.
+
 ## Installation
 
 ```sh
