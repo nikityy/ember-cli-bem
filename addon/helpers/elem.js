@@ -1,11 +1,11 @@
 import Ember from 'ember';
+import { NAMING_STRATEGY_KEY } from '../variables';
 
 const {
   Helper: { helper }
 } = Ember;
 
 const BLOCK_KEY = 'blockName';
-const NAMING_STRATEGY_KEY = '__namingStrategy__';
 
 export default helper(function(params, hash) {
   const blockName = hash[BLOCK_KEY];

@@ -1,7 +1,10 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
+import { NAMING_STRATEGY_KEY } from '../variables';
 import ClassicNamingStrategy from 'ember-cli-bem/naming-strategies/classic';
 
 const {
+  Component,
   computed,
   defineProperty,
   get,
@@ -28,9 +31,8 @@ export default Mixin.create({
       set(this, 'mods', []);
     }
 
-    // Fallback to classic naming strategy if it hasn't been injected
-    if (!get(this, '__namingStrategy__')) {
-      set(this, '__namingStrategy__', ClassicNamingStrategy.create());
+    if (!get(this, NAMING_STRATEGY_KEY)) {
+      this.__registerNamingStrategy__();
     }
 
     const mods = get(this, 'mods');
@@ -54,6 +56,25 @@ export default Mixin.create({
       return namingStrategy.getBlockClassName(blockName);
     }
   }),
+
+  __getAddonConfig__() {
+    return config['ember-cli-bem'];
+  },
+
+  __getNamingStrategyFactory__() {
+    return ClassicNamingStrategy;
+  },
+
+  __registerNamingStrategy__() {
+    const config = this.__getAddonConfig__();
+    const namingStrategyFactory = this.__getNamingStrategyFactory__();
+    const namingStrategy = namingStrategyFactory.create(config);
+
+    Component.reopen({
+      [NAMING_STRATEGY_KEY]: namingStrategy,
+    });
+    set(this, NAMING_STRATEGY_KEY, namingStrategy);
+  },
 
   __getModName__(modDefinition) {
     const [modName, modValueProperty] = modDefinition.split(':');

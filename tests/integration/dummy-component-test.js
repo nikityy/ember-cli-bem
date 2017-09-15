@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-import emberCliBemInitializer from 'dummy/initializers/ember-cli-bem';
 import { moduleForComponent, test } from 'ember-qunit';
 import { withChai } from 'ember-cli-chai/qunit';
 
@@ -14,9 +13,6 @@ moduleForComponent(
   'Integration | Components | dummy-component',
   {
     integration: true,
-    beforeEach() {
-      emberCliBemInitializer.initialize(this);
-    },
   }
 );
 
