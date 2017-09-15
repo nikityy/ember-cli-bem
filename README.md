@@ -1,6 +1,12 @@
 # ember-cli-bem [![Build Status](https://travis-ci.org/nikityy/ember-cli-bem.svg?branch=master)](https://travis-ci.org/nikityy/ember-cli-bem) [![Ember Observer Score](https://emberobserver.com/badges/ember-cli-bem.svg)](https://emberobserver.com/addons/ember-cli-bem)
 
-Make your project BEM-flavoured. It incapsulates all [BEM](https://en.bem.info/methodology/) naming logic, so you don't have to care about it in your components. Simply define [blocks](https://en.bem.info/methodology/key-concepts/#block), [elements](https://en.bem.info/methodology/key-concepts/#element) and [modifiers](https://en.bem.info/methodology/key-concepts/#modifier) in your components and templates.
+ember-cli-bem helps you define class names in BEM way. Make your templates shorter with a help of [`elem`](https://github.com/nikityy/ember-cli-bem/blob/master/addon/helpers/elem.js) helper. Write less code in your components by injecting [BEM mixin](https://github.com/nikityy/ember-cli-bem/blob/master/addon/mixins/bem.js). ember-cli-bem encapsulates all BEM naming logic so you don't have to reinvent the wheel.
+
+## Installation
+
+```sh
+ember install ember-cli-bem
+```
 
 ## Introduction
 
@@ -23,13 +29,13 @@ applies only if some condition matches, you have to write something like this:
 ```hbs
   {{!-- With ember-component-css --}}
   <div class="
-    {{componentCssClassName}}__container
-    {{if someCondition (concat componentCssClassName '__container_disabled')}}
-    {{componentCssClassName}}__type_highlighted
+    {{componentCssClassName}}__item
+    {{if someCondition (concat componentCssClassName '__item_disabled')}}
+    {{componentCssClassName}}__item_type_highlighted
   "></div>
 
   {{!-- With ember-cli-bem --}}
-  <div class="{{elem 'container' disabled=someCondition highlighted=true}}"></div>
+  <div class="{{elem 'item' disabled=someCondition highlighted=true}}"></div>
 ```
 
 Or let's say you just want to define some modifier in your component:
@@ -61,7 +67,7 @@ export default Ember.Component.extend({
 });
 ```
 
-Once again, `ember-cli-bem` incapsulates all BEM naming logic, so you don't have to care
+Once again, `ember-cli-bem` encapsulates all BEM naming logic, so you don't have to care
 about it in your components.
 
 ## Defining Blocks and Elements
@@ -138,7 +144,7 @@ So `container` element will have following class names:
 
 ## Configuring Addon
 
-BEM-naming can be configured. You can change element and mod delimiters, use or not
+BEM-naming can be configured. You can change element and mod delimiters, to use or not
 key-value modifiers, or define your own naming strategy.
 
 ```js
@@ -175,11 +181,3 @@ table to understand what class will be generated with this option enabled or dis
 | `'force'`      | `'block_disabled_force'` | `'block_disabled'`         |
 
 Note the case with `'force'` modifier value.
-
-## Installation
-
-```sh
-ember install ember-cli-bem
-```
-
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
