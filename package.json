@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-bem",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "BEM naming for your Ember project",
   "keywords": [
     "bem",
