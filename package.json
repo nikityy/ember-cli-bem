@@ -22,7 +22,8 @@
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.0.0"
+    "ember-cli-babel": "^6.0.0",
+    "ember-get-config": "^0.2.3"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
@@ -40,7 +41,6 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^2.0.0",
-    "ember-get-config": "^0.2.3",
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.13.0",
