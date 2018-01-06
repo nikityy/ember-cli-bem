@@ -146,7 +146,7 @@ test('should not add mod with false value', function(assert) {
   `);
 
   const hasFalseModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_disabled`);
-  assert.ok(hasFalseModClass);
+  assert.notOk(hasFalseModClass);
 });
 
 test('should add negative mod name if value is false', function(assert) {
