@@ -1,9 +1,5 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import BEM from 'ember-cli-bem/mixins/bem';
-
-const {
-  Component,
-} = Ember;
 
 export default Component.extend(BEM, {
 

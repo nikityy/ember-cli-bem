@@ -1,9 +1,5 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
 import BaseNamingStrategy from 'ember-cli-bem/naming-strategies/base';
-
-const {
-  get,
-} = Ember;
 
 /**
  *  Classic BEM naming implemntation.

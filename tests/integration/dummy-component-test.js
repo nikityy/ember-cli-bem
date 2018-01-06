@@ -1,12 +1,8 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { set } from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 import { withChai } from 'ember-cli-chai/qunit';
-
-const {
-  run,
-  set,
-} = Ember;
 
 moduleForComponent(
   'dummy-component',

@@ -1,9 +1,5 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 import { NAMING_STRATEGY_KEY } from '../variables';
-
-const {
-  Helper: { helper }
-} = Ember;
 
 const BLOCK_KEY = 'blockName';
 

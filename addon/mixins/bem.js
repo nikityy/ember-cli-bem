@@ -1,16 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import Mixin from '@ember/object/mixin';
+import { set, get, defineProperty, computed } from '@ember/object';
 import config from 'ember-get-config';
 import { NAMING_STRATEGY_KEY } from '../variables';
 import ClassicNamingStrategy from 'ember-cli-bem/naming-strategies/classic';
-
-const {
-  Component,
-  computed,
-  defineProperty,
-  get,
-  Mixin,
-  set,
-} = Ember;
 
 export default Mixin.create({
 
