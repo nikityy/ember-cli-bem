@@ -1,12 +1,7 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { set } from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
-import { withChai } from 'ember-cli-chai/qunit';
-
-const {
-  run,
-  set,
-} = Ember;
 
 moduleForComponent(
   'dummy-component',
@@ -18,7 +13,7 @@ moduleForComponent(
 
 const dummyComponentSelector = '.dummy-component';
 
-test('should add block class name', withChai(function(expect, assert) {
+test('should add block class name', function(assert) {
   assert.expect(1);
 
   const blockName = 'checkbox';
@@ -31,10 +26,10 @@ test('should add block class name', withChai(function(expect, assert) {
   `);
 
   const hasBlockClassName = this.$(dummyComponentSelector).hasClass(blockName);
-  expect(hasBlockClassName).to.be.ok;
-}));
+  assert.ok(hasBlockClassName);
+});
 
-test('should add element class name', withChai(function(expect, assert) {
+test('should add element class name', function(assert) {
   assert.expect(1);
 
   const blockName = 'checkbox';
@@ -50,10 +45,10 @@ test('should add element class name', withChai(function(expect, assert) {
   `);
 
   const hasElemClassName = this.$(dummyComponentSelector).hasClass(`${blockName}__${elemName}`);
-  expect(hasElemClassName).to.be.ok;
-}));
+  assert.ok(hasElemClassName);
+});
 
-test('should add key-value mod', withChai(function(expect, assert) {
+test('should add key-value mod', function(assert) {
   assert.expect(1);
 
   const blockName = 'checkbox';
@@ -76,10 +71,10 @@ test('should add key-value mod', withChai(function(expect, assert) {
   `);
 
   const hasKeyValueModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_color_${color}`);
-  expect(hasKeyValueModClass).to.be.ok;
-}));
+  assert.ok(hasKeyValueModClass);
+});
 
-test('should add boolean mod', withChai(function(expect, assert) {
+test('should add boolean mod', function(assert) {
   assert.expect(1);
 
   const blockName = 'checkbox';
@@ -101,10 +96,10 @@ test('should add boolean mod', withChai(function(expect, assert) {
   `);
 
   const hasBooleanModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_disabled`);
-  expect(hasBooleanModClass).to.be.ok;
-}));
+  assert.ok(hasBooleanModClass);
+});
 
-test('should add mod with custom name', withChai(function(expect, assert) {
+test('should add mod with custom name', function(assert) {
   assert.expect(1);
 
   const blockName = 'checkbox';
@@ -126,10 +121,10 @@ test('should add mod with custom name', withChai(function(expect, assert) {
   `);
 
   const hasCustomNameModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_select-mode`);
-  expect(hasCustomNameModClass).to.be.ok;
-}));
+  assert.ok(hasCustomNameModClass);
+});
 
-test('should not add mod with false value', withChai(function(expect, assert) {
+test('should not add mod with false value', function(assert) {
   assert.expect(1);
 
   const blockName = 'checkbox';
@@ -151,10 +146,10 @@ test('should not add mod with false value', withChai(function(expect, assert) {
   `);
 
   const hasFalseModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_disabled`);
-  expect(hasFalseModClass).to.be.not.ok;
-}));
+  assert.notOk(hasFalseModClass);
+});
 
-test('should add negative mod name if value is false', withChai(function(expect, assert) {
+test('should add negative mod name if value is false', function(assert) {
   assert.expect(1);
 
   const blockName = 'checkbox';
@@ -176,10 +171,10 @@ test('should add negative mod name if value is false', withChai(function(expect,
   `);
 
   const hasNegativeModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_non-pressed`);
-  expect(hasNegativeModClass).to.be.ok;
-}));
+  assert.ok(hasNegativeModClass);
+});
 
-test('should add multiple mods class names', withChai(function(expect, assert) {
+test('should add multiple mods class names', function(assert) {
   assert.expect(2);
 
   const blockName = 'checkbox';
@@ -207,13 +202,13 @@ test('should add multiple mods class names', withChai(function(expect, assert) {
   const component = this.$(dummyComponentSelector);
 
   const hasColorModClass = component.hasClass(`${blockName}_color_${color}`);
-  expect(hasColorModClass).to.be.ok;
+  assert.ok(hasColorModClass);
 
   const hasDisabledModClass = component.hasClass(`${blockName}_disabled`);
-  expect(hasDisabledModClass).to.be.ok;
-}));
+  assert.ok(hasDisabledModClass);
+});
 
-test('should recalculate modsClassNames when dependent property has changed', withChai(function(expect, assert) {
+test('should recalculate modsClassNames when dependent property has changed', function(assert) {
   assert.expect(1);
 
   const blockName = 'checkbox';
@@ -241,5 +236,5 @@ test('should recalculate modsClassNames when dependent property has changed', wi
   })
 
   const hasNewModClass = this.$(dummyComponentSelector).hasClass(`${blockName}_color_${newColor}`);
-  expect(hasNewModClass).to.be.ok;
-}));
+  assert.ok(hasNewModClass);
+});

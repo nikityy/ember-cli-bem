@@ -1,13 +1,12 @@
 import hbs from 'htmlbars-inline-precompile';
 import ClassicNamingStrategy from 'ember-cli-bem/naming-strategies/classic';
 import { moduleForComponent, test } from 'ember-qunit';
-import { withChai } from 'ember-cli-chai/qunit';
 
 moduleForComponent('helper:elem', 'Integration | Helper | elem', {
   integration: true
 });
 
-test('it should get blockName by default', withChai(function(expect, assert) {
+test('it should get blockName by default', function(assert) {
   assert.expect(1);
 
   const strategy = new ClassicNamingStrategy();
@@ -16,10 +15,10 @@ test('it should get blockName by default', withChai(function(expect, assert) {
   this.set('__namingStrategy__', strategy);
   this.render(hbs`{{elem 'bar'}}`);
 
-  expect(this.$().text().trim()).to.be.equal('foo__bar');
-}));
+  assert.equal(this.$().text().trim(), 'foo__bar');
+});
 
-test('it should use specified blockName', withChai(function(expect, assert) {
+test('it should use specified blockName', function(assert) {
   assert.expect(1);
 
   const strategy = new ClassicNamingStrategy();
@@ -27,10 +26,10 @@ test('it should use specified blockName', withChai(function(expect, assert) {
   this.set('__namingStrategy__', strategy);
   this.render(hbs`{{elem '123' blockName='abc'}}`);
 
-  expect(this.$().text().trim()).to.be.equal('abc__123');
-}));
+  assert.equal(this.$().text().trim(), 'abc__123');
+});
 
-test('it should generate mods class names', withChai(function(expect, assert) {
+test('it should generate mods class names', function(assert) {
   assert.expect(1);
 
   const strategy = new ClassicNamingStrategy();
@@ -40,9 +39,9 @@ test('it should generate mods class names', withChai(function(expect, assert) {
   this.render(hbs`{{elem 'bar' hidden=true type='primary' disabled=false}}`);
 
   const classNames = this.$().text().trim().split(' ').sort();
-  expect(classNames).to.be.deep.equal([
+  assert.deepEqual(classNames, [
     'foo__bar',
     'foo__bar_hidden',
     'foo__bar_type_primary',
   ]);
-}));
+});
