@@ -1,52 +1,41 @@
 # ember-cli-bem [![Build Status](https://travis-ci.org/nikityy/ember-cli-bem.svg?branch=master)](https://travis-ci.org/nikityy/ember-cli-bem) [![Ember Observer Score](https://emberobserver.com/badges/ember-cli-bem.svg)](https://emberobserver.com/addons/ember-cli-bem)
 
-ember-cli-bem helps you define class names in BEM way. Make your templates shorter with a help of [`elem`](https://github.com/nikityy/ember-cli-bem/blob/master/addon/helpers/elem.js) helper. Write less code in your components by injecting [BEM mixin](https://github.com/nikityy/ember-cli-bem/blob/master/addon/mixins/bem.js). ember-cli-bem encapsulates all BEM naming logic so you don't have to reinvent the wheel.
+This addon helps you define class names in BEM way. Make your templates shorter with a help of [`elem`](https://github.com/nikityy/ember-cli-bem/blob/master/addon/helpers/elem.js) helper. Save your lifetime and use convenient modifier definitions in [BEM mixin](https://github.com/nikityy/ember-cli-bem/blob/master/addon/mixins/bem.js). ember-cli-bem encapsulates all BEM naming logic so you don't have to reinvent the wheel.
 
 ## Installation
+
+The addon requires Ember version to be 2.4 or newer. It doesn't touch CSS bundling, so it may be used with any CSS preprocessor.
 
 ```sh
 ember install ember-cli-bem
 ```
 
-## Introduction
+## Motivation
 
-Why use another class names addon in your Ember project, if you're already
-using something like [`ember-component-css`](https://github.com/ebryn/ember-component-css)? Because BEM-way
-classes look ugly in these addons.
-
-For example, compare how to create an element with [`ember-component-css`](https://github.com/ebryn/ember-component-css) and with `ember-cli-bem`:
-```hbs
-  {{!-- With ember-component-css --}}
-  <div class="{{componentCssClassName}}__container"></div>
-
-  {{!-- With ember-cli-bem --}}
-  <div class="{{elem 'container'}}"></div>
-```
-
-Moreover, how to define an element with modifiers? If you want to get following class names `header__item header__item_disabled header__item_type_highlighted`, plus if `disabled` modifier
-applies only if some condition matches, you have to write something like this:
+When you decide to use BEM in your project, your code often turns into something like this:
 
 ```hbs
-  {{!-- With ember-component-css --}}
+  {{!-- Don't do this! --}}
   <div class="
     {{componentCssClassName}}__item
     {{if someCondition (concat componentCssClassName '__item_disabled')}}
     {{componentCssClassName}}__item_type_highlighted
   "></div>
-
-  {{!-- With ember-cli-bem --}}
-  <div class="{{elem 'item' disabled=someCondition highlighted=true}}"></div>
 ```
 
-Or let's say you just want to define some modifier in your component:
+Or like this:
 
 ```js
-// With ember-component-css
-import Ember from 'ember';
-export default Ember.Component.extend({
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+
+/**
+ *  Please don't do like this
+ */
+export default Component.extend({
   classNameBindings: ['typeMod'],
   type: 'highlighted',
-  typeMod: Ember.computed('componentCssClassName', 'type', function() {
+  typeMod: computed('componentCssClassName', 'type', function() {
     const type = this.get('type');
     if (type) {
       return `${this.get('componentCssClassName')}_type_${type}`
@@ -55,99 +44,85 @@ export default Ember.Component.extend({
     }
   }),
 });
-
-// With ember-cli-bem
-import Ember from 'ember';
-import BEM from 'ember-cli-bem/mixins/bem';
-
-export default Ember.Component.extend({
-  blockName: 'button',
-  mods: ['type'],
-  type: 'highlighted',
-});
 ```
 
-Once again, `ember-cli-bem` encapsulates all BEM naming logic, so you don't have to care
-about it in your components.
+This breaks DRY principle, you duplicate BEM naming logic everywhere in your code. Now with `ember-cli-bem` this problem is solved.
 
-## Defining Blocks and Elements
 
-To define a [block](https://en.bem.info/methodology/key-concepts/#block) with `ember-cli-bem`, you should mix BEM mixin into your component. Blocks in `ember-cli-bem` requires only one field — `blockName`. If you left this property empty, component will throw an error. `blockName` just concatenates with `classNames` property.
+## Blocks
 
-If you want to define an [element](https://en.bem.info/methodology/key-concepts/#element) component (with `block__element` class name and custom logic), you just add
-`elemName` property in component definition:
+Block, according to the [official documentation](https://en.bem.info/methodology/key-concepts/#block), is a logically and functionally independent component. There is no other functionally independent component as button, so let's create it for example.
 
 ```js
-import Ember from 'ember';
+// app/components/b-button/component.js
+import Component from '@ember/component';
 import BEM from 'ember-cli-bem/mixins/bem';
 
-export default Ember.Component.extend(BEM, {
+export default Component.extend(BEM, {
+  // Mandatory field
   blockName: 'button',
-  elemName: 'icon'
+
+  // Mods has the same syntax as `classNameBindings`,
+  // so you can use something like `someProperty:modifier-name`
+  mods: ['disabled:is-disabled', 'size'],
 });
 ```
 
-This component will have a `button__icon` class.
-
-## Defining Modifiers
-
-When you want to define a [modifier](https://en.bem.info/methodology/key-concepts/#modifier) for your component, you should define `mods` array, which acts just like `classNameBindings`, but with some BEM attached:
-
-```js
-import Ember from 'ember';
-import BEM from 'ember-cli-bem/mixins/bem';
-
-export default Ember.Component.extend(BEM, {
-  blockName: 'button',
-
-  mods: [
-    'disabled',
-    'type',
-    'clear:with-clear:without-clear'
-  ],
-
-  disabled: true,
-  type: 'submit',
-  clear: false,
-});
-```
-
-This component will have a `button` class with following modifier classes:
-* `button_disabled`
-* `button_type_submit`
-* `button_without-clear`
-
-## Using elem helper
-
-In templates of your BEM-components you could use `elem` helper to generate BEM class names:
+In these lines a great power is being contained. Now look what happens when you use the button in your template:
 
 ```hbs
-  <div class="{{elem 'icon'}}"></div>
-  <div class="{{elem 'caption'}}">
-    {{text}}
+{{b-button disabled=true size='m'}}
+
+{{!-- turns into --}}
+
+<div class="button button_is-disabled button_size_m"></div>
+```
+
+All modifiers defined in `mods` array turned into separate classes. It's a great opportunity to split your styles into small and reusable chunks.
+
+
+## Elements
+
+Sometimes you need to define an inline entity, which won't be used outside a block. In BEM we call such entity an element. Let's define some header block first:
+
+```js
+// app/components/h-header/component.js
+import Component from '@ember/component';
+import BEM from 'ember-cli-bem/mixins/bem';
+
+export default Component.extend(BEM, {
+  blockName: 'header',
+});
+```
+
+Then add a template for it. Just look what happens then:
+
+```hbs
+  {{!-- app/components/h-header/template.hbs --}}
+  {{#b-button
+    size='m'
+    className=(elem 'tab' active=true type='link')
+  }}
+    <div class={{elem 'caption'}}></div>
+  {{/b-button}}
+
+  {{!-- turns into --}}
+
+  <div class="button button_size_m header__tab header__tab_active header__tab_type_link">
+    <div class="header__caption"></div>
   </div>
 ```
 
-Applying `button` example, these elements will have `button__icon` and `button__caption` classes accordingly.
+Under the hood, `elem` helper obtained its wrapping component's `blockName` and composed an element name from it. Every named property passed to `elem` helper turned into a modifier.
 
-Also `elem` helper supports modifiers:
-```hbs
-  <div class="{{elem 'container' collapsed=true type='float'}}">
-    {{yield}}
-  </div>
-```
-
-So `container` element will have following class names:
-* `button__container`
-* `button__container_collapsed`
-* `button__container_type_float`
+While the `caption` element looks pretty straightforward, the `tab` isn't that simple. When we assign an element class name to the block, we call it a [mix](https://en.bem.info/methodology/key-concepts/#mix) in BEM. In our example, we used a mix to make the button look different exactly at one place — at the header.
 
 ## Configuring Addon
 
-BEM-naming can be configured. You can change element and mod delimiters, to use or not
-key-value modifiers, or define your own naming strategy.
+BEM-naming can be configured.
 
 ```js
+// config/environment.js
 ENV['ember-cli-bem'] = {
   elemDelimiter: '__',
   modDelimiter: '_',
@@ -158,14 +133,12 @@ ENV['ember-cli-bem'] = {
 ### elemDelimiter
 Default value: `'__'`
 
-Defines how to separate block and element name. For block `checkbox`, element `input`, and elemDelimiter `-`
-it will produce `checkbox-input` class name.
+Defines how to separate block and element names.
 
 ### modDelimiter
 Default value: `'_'`
 
-Just like elemDelimiter, it defines how to separate modifier class name from the rest of name. For block 'checkbox', modifier `disabled`, and modDelimiter `--`
-it will produce `checkbox--disabled` classname
+It defines how to separate modifier name from the rest of the class name.
 
 ### useKeyValuedMods
 Default value: `true`
@@ -176,8 +149,8 @@ table to understand what class will be generated with this option enabled or dis
 | Modifier Value | With `useKeyValuedMods`  | Without `useKeyValuedMods` |
 |----------------|--------------------------|----------------------------|
 | `true`         | `'block_disabled'`       | `'block_disabled'`         |
+| `'force'`      | `'block_disabled_force'` | `'block_disabled'`         |
 | `false`        | `''`                     | `''`                       |
 | `''`           | `''`                     | `''`                       |
-| `'force'`      | `'block_disabled_force'` | `'block_disabled'`         |
 
 Note the case with `'force'` modifier value.
